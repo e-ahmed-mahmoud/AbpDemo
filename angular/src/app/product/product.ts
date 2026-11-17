@@ -1,10 +1,10 @@
 import { Component, input, OnInit, signal } from '@angular/core';
 import { GetProductListDto, ProductDto, ProductService } from '../proxy/products';
-import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import { DataTableColumnDirective, DatatableComponent } from '@swimlane/ngx-datatable';
 
 @Component({
   selector: 'app-product',
-  imports: [],
+  imports: [DatatableComponent, DataTableColumnDirective],
   templateUrl: './product.html',
   styleUrl: './product.scss',
   standalone: true,

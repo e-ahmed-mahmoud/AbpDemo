@@ -1,25 +1,14 @@
 
 @if (categories().length > 0) {
 
-    <table class=" table" id = 'tblGrid'>
-        <thead>
-            <tr>
-                <th>Name Ar</th>
-                <th>Name En</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (item of categories(); track $index) {
-                <tr>
-                    <td> {{item.nameAr}} </td>
-                    <td> {{item.nameEn}} </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <ngx-datatable class="material" [rows]="categories()  || []" [count]="pagedList().maxResultCount || 0" [columnMode]="'force'" [headerHeight]="50"
+    [footerHeight]="50" [rowHeight]="50" [limit]="5"
+    >
+    <ngx-datatable-column name="NameAr" prop="nameAr"></ngx-datatable-column>
+    <ngx-datatable-column name="NameEn" prop="nameEn"></ngx-datatable-column>
+    </ngx-datatable>
+
 }
 @else {
     <div> No categories avaliable  </div>
 }
-
-

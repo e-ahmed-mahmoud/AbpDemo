@@ -1,10 +1,11 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CategoryDto, CategoryService } from '../proxy/categories';
-import { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
+import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import { DataTableColumnDirective, DatatableComponent } from '@swimlane/ngx-datatable';
 
 @Component({
   selector: 'app-category',
-  imports: [],
+  imports: [DatatableComponent, DataTableColumnDirective],
   templateUrl: './category.html',
   styleUrl: './category.scss',
 })

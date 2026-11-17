@@ -1,27 +1,12 @@
 
 @if (products()) {
-
-    <table class=" table" id = 'tblGrid'>
-        <caption>products</caption>
-        <thead>
-            <tr>
-                <th>Name Ar</th>
-                <th>Name En</th>
-                <th>Descripation Ar</th>
-                <th>Descripation En</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (item of products(); track $index) {
-                <tr>
-                    <td> {{item.nameAr}} </td>
-                    <td> {{item.nameEn}} </td>
-                    <td> {{item.descripationAr}} </td>
-                    <td> {{item.descripationEn}} </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<ngx-datatable class="material" [rows]="products() || []" [count]="pagedList().maxResultCount || 0" [rowHeight]="50" [headerHeight]="50" [limit]="5" columnMode="force">
+    <ngx-datatable-column name="NameAr" prop="nameAr"></ngx-datatable-column>
+    <ngx-datatable-column name="NameEn" prop="nameEn"></ngx-datatable-column>
+    <ngx-datatable-column name="descripationAr" prop="descripationAr"></ngx-datatable-column>
+    <ngx-datatable-column name="descripationEn" prop="descripationEn"></ngx-datatable-column>
+    <ngx-datatable-column name="price" prop="price"></ngx-datatable-column>
+</ngx-datatable>
 }
 @else {
     <div> No Product avaliable  </div>
