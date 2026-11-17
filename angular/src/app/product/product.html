@@ -1,0 +1,30 @@
+
+@if (products()) {
+
+    <table class=" table" id = 'tblGrid'>
+        <caption>products</caption>
+        <thead>
+            <tr>
+                <th>Name Ar</th>
+                <th>Name En</th>
+                <th>Descripation Ar</th>
+                <th>Descripation En</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (item of products(); track $index) {
+                <tr>
+                    <td> {{item.nameAr}} </td>
+                    <td> {{item.nameEn}} </td>
+                    <td> {{item.descripationAr}} </td>
+                    <td> {{item.descripationEn}} </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@else {
+    <div> No Product avaliable  </div>
+}
+
+

@@ -10,5 +10,7 @@ public abstract class AbpDemoAppService : ApplicationService
     protected AbpDemoAppService()
     {
         LocalizationResource = typeof(AbpDemoResource);
+
     }
+
 }

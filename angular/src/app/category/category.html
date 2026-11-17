@@ -1,0 +1,25 @@
+
+@if (categories().length > 0) {
+
+    <table class=" table" id = 'tblGrid'>
+        <thead>
+            <tr>
+                <th>Name Ar</th>
+                <th>Name En</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (item of categories(); track $index) {
+                <tr>
+                    <td> {{item.nameAr}} </td>
+                    <td> {{item.nameEn}} </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@else {
+    <div> No categories avaliable  </div>
+}
+
+

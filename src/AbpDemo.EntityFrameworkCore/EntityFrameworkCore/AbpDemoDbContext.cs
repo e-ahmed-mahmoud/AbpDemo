@@ -1,13 +1,9 @@
-using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
-using AbpDemo.Authors;
-using AbpDemo.Books;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
-using Volo.Abp.EntityFrameworkCore.Modeling;
 using Volo.Abp.FeatureManagement.EntityFrameworkCore;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
@@ -16,6 +12,8 @@ using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using AbpDemo.Products;
+using AbpDemo.Categories;
 
 namespace AbpDemo.EntityFrameworkCore;
 
@@ -28,10 +26,6 @@ public class AbpDemoDbContext :
     IIdentityDbContext
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
-
-    public DbSet<Author> Authors { get; set; }
-
-    public DbSet<Book> Books { get; set; }
 
     #region Entities from the modules
 
@@ -60,6 +54,10 @@ public class AbpDemoDbContext :
     public DbSet<Tenant> Tenants { get; set; }
     public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
 
+
+    // Bussiness DbSet
+    public DbSet<Product> Products { get; set; }
+    public DbSet<Category> Categories { get; set; }
     #endregion
 
     public AbpDemoDbContext(DbContextOptions<AbpDemoDbContext> options)
@@ -84,23 +82,7 @@ public class AbpDemoDbContext :
         builder.ConfigureTenantManagement();
         builder.ConfigureBlobStoring();
 
-        builder.Entity<Author>(b =>
-        {
-            b.ToTable(AbpDemoConsts.DbTablePrefix + "Authors",
-                AbpDemoConsts.DbSchema);
-            b.ConfigureByConvention(); //auto configure for the base class props
-            b.Property(x => x.Name).IsRequired().HasMaxLength(AuthorConsts.MaxNameLength);
-            b.Property(x => x.ShortBio).HasMaxLength(AuthorConsts.MaxShortBioLength);
-        });
-
-        builder.Entity<Book>(b =>
-        {
-            b.ToTable(AbpDemoConsts.DbTablePrefix + "Books",
-                AbpDemoConsts.DbSchema);
-            b.ConfigureByConvention(); //auto configure for the base class props
-            b.Property(x => x.Name).IsRequired().HasMaxLength(128);
-            b.HasOne<Author>().WithMany().HasForeignKey(x => x.AuthorId).IsRequired();
-        });
+        builder.ApplyConfigurationsFromAssembly(typeof(IAssemblyMarker).Assembly);
 
         /* Configure your own tables/entities inside here */
 

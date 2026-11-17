@@ -282,3 +282,5 @@ src/AbpDemo.Blazor.Server.Tiered/Logs/*
 # IdentityServer temp files
 tempkey.rsa
 tempkey.jwk
+.DS_Store
+src/Logs/logs.txt

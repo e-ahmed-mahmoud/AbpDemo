@@ -18,22 +18,12 @@ namespace AbpDemo.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.Sqlite)
-                .HasAnnotation("ProductVersion", "10.0.11");
+                .HasAnnotation("ProductVersion", "10.0.15");
 
-            modelBuilder.Entity("AbpDemo.Authors.Author", b =>
+            modelBuilder.Entity("AbpDemo.Categories.Category", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ConcurrencyStamp");
+                    b.Property<int>("Id")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("TEXT")
@@ -51,10 +41,68 @@ namespace AbpDemo.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("DeletionTime");
 
-                    b.Property<string>("ExtraProperties")
-                        .IsRequired()
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(false)
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime")
                         .HasColumnType("TEXT")
-                        .HasColumnName("ExtraProperties");
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<string>("NameAr")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NameEn")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories", (string)null);
+                });
+
+            modelBuilder.Entity("AbpDemo.Products.Product", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("DeleterId");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("DeletionTime");
+
+                    b.Property<string>("DescripationAr")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DescripationEn")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -70,75 +118,24 @@ namespace AbpDemo.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("LastModifierId");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("NameAr")
                         .IsRequired()
-                        .HasMaxLength(64)
+                        .HasMaxLength(300)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ShortBio")
-                        .HasMaxLength(512)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AppAuthors", (string)null);
-                });
-
-            modelBuilder.Entity("AbpDemo.Books.Book", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("AuthorId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
+                    b.Property<string>("NameEn")
                         .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ConcurrencyStamp");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("CreatorId");
-
-                    b.Property<string>("ExtraProperties")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ExtraProperties");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("LastModifierId");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(128)
+                        .HasMaxLength(300)
                         .HasColumnType("TEXT");
 
-                    b.Property<float>("Price")
-                        .HasColumnType("REAL");
-
-                    b.Property<DateTime>("PublishDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Type")
+                    b.Property<int>("Price")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("CategoryId");
 
-                    b.ToTable("AppBooks", (string)null);
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
@@ -2100,13 +2097,15 @@ namespace AbpDemo.Migrations
                     b.ToTable("AbpTenantConnectionStrings", (string)null);
                 });
 
-            modelBuilder.Entity("AbpDemo.Books.Book", b =>
+            modelBuilder.Entity("AbpDemo.Products.Product", b =>
                 {
-                    b.HasOne("AbpDemo.Authors.Author", null)
+                    b.HasOne("AbpDemo.Categories.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("AuthorId")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>
